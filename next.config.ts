@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
   output: isProd ? 'export' : undefined,
   basePath: '/notion-embedded-widgets',
   assetPrefix: '/notion-embedded-widgets',
-  images: { unoptimized: true },
 };
 
 export default nextConfig;
