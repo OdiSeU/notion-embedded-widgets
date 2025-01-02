@@ -5,8 +5,8 @@ const isProd = process.env.NODE_ENV === 'production';
 const nextConfig: NextConfig = {
   /* config options here */
   output: isProd ? 'export' : undefined,
-  basePath: '/notion-embeded-widgets',
-  assetPrefix: '/notion-embeded-widgets',
+  basePath: '/notion-embedded-widgets',
+  assetPrefix: '/notion-embedded-widgets',
   images: { unoptimized: true },
 };
 
