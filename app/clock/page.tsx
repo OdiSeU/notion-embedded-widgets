@@ -94,21 +94,17 @@ const AnalogClock = () => {
     if (!ctx) return;
 
     const drawClock = () => {
-      const now = new Date();
       const width = canvas.width;
       const height = canvas.height;
       const radius = Math.min(width, height) / 2;
-      const centerX = width / 2;
-      const centerY = height / 2;
 
+      // Clear & Init clock
       ctx.clearRect(0, 0, width, height);
-
-      // Adjust rotation to correct orientation
       ctx.save();
-      ctx.translate(centerX, centerY);
+      ctx.translate(width / 2, height / 2);
       ctx.rotate(-Math.PI / 2);
 
-      // Draw clock face
+      // Draw clock frame
       drawClockFrame({
         ctx,
         radius,
@@ -143,6 +139,7 @@ const AnalogClock = () => {
       });
 
       // Draw hands
+      const now = new Date();
       const hour = now.getHours() % 12;
       const minute = now.getMinutes();
       const second = now.getSeconds();
@@ -175,7 +172,7 @@ const AnalogClock = () => {
         ctx,
         angle: ((second + millisecond / 1000) * Math.PI) / 30,
         offset: 0,
-        length: radius * 0.85,
+        length: radius * 0.9,
         strokeStyle: '#f00',
         lineWidth: 2,
         lineCap: 'round',
