@@ -19,7 +19,7 @@ const getParam = <T extends number | string>(
   return defaultValue;
 };
 
-export default function ClockPage() {
+const Clock = () => {
   const params = useSearchParams();
 
   const clockProps: IAnalogClockProps = useMemo(
@@ -73,10 +73,16 @@ export default function ClockPage() {
   );
 
   return (
+    <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+      <AnalogClock {...clockProps} />
+    </div>
+  );
+};
+
+export default function ClockPage() {
+  return (
     <Suspense fallback={<div>Loading...</div>}>
-      <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
-        <AnalogClock {...clockProps} />
-      </div>
+      <Clock />
     </Suspense>
   );
 }

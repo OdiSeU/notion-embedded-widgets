@@ -204,7 +204,14 @@ export const AnalogClock = ({
     return () => {
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, []);
+  }, [
+    JSON.stringify(frameOptions),
+    JSON.stringify(hourMarksOptions),
+    JSON.stringify(minuteMarksOptions),
+    JSON.stringify(hourHandOptions),
+    JSON.stringify(minuteHandOptions),
+    JSON.stringify(secondHandOptions),
+  ]);
 
   return (
     <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }}></canvas>
