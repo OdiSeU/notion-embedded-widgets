@@ -4,11 +4,19 @@ import { AnalogClock, IAnalogClockProps } from "@/components/AnalogClock";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
-const getParam = (params: URLSearchParams, key: string, defaultValue: any) => {
+const getParam = <T extends number | string>(
+  params: URLSearchParams,
+  key: string,
+  defaultValue: T
+): T => {
   const value = params.get(key);
-  if (typeof defaultValue === "number") return Number(value) || defaultValue;
-  if (typeof defaultValue === "string") return `#${value || defaultValue}`;
-  return value || defaultValue;
+  if (typeof defaultValue === "number") {
+    return (value ? Number(value) : defaultValue) as T;
+  }
+  if (typeof defaultValue === "string") {
+    return `#${value || defaultValue}` as T;
+  }
+  return defaultValue;
 };
 
 export default function ClockPage() {

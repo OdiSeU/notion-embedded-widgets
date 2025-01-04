@@ -46,7 +46,10 @@ export const AnalogClock = ({
 }: IAnalogClockProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const drawClockFrame = (ctx: CanvasRenderingContext2D, options: IAnalogClockFrameOptions) => {
+  const drawClockFrame = (
+    ctx: CanvasRenderingContext2D,
+    options: IAnalogClockFrameOptions
+  ) => {
     const { radius, fillStyle, strokeStyle, lineWidth, lineCap } = options;
 
     ctx.beginPath();
@@ -59,8 +62,12 @@ export const AnalogClock = ({
     ctx.stroke();
   };
 
-  const drawMarks = (ctx: CanvasRenderingContext2D, options: IAnalogClockMarksOptions) => {
-    const { num, radius, offset, length, strokeStyle, lineWidth, lineCap } = options;
+  const drawMarks = (
+    ctx: CanvasRenderingContext2D,
+    options: IAnalogClockMarksOptions
+  ) => {
+    const { num, radius, offset, length, strokeStyle, lineWidth, lineCap } =
+      options;
 
     ctx.strokeStyle = strokeStyle;
     ctx.lineWidth = lineWidth;
@@ -80,7 +87,10 @@ export const AnalogClock = ({
     }
   };
 
-  const drawHand = (ctx: CanvasRenderingContext2D, options: IAnalogClockHandOptions) => {
+  const drawHand = (
+    ctx: CanvasRenderingContext2D,
+    options: IAnalogClockHandOptions
+  ) => {
     const { angle, offset, length, strokeStyle, lineWidth, lineCap } = options;
 
     ctx.strokeStyle = strokeStyle;
@@ -92,86 +102,89 @@ export const AnalogClock = ({
     ctx.stroke();
   };
 
-  const drawClock = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
-    const width = canvas.width;
-    const height = canvas.height;
-    const radius = Math.min(width, height) / 2;
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    ctx.translate(width / 2, height / 2);
-    ctx.rotate(-Math.PI / 2);
-
-    drawClockFrame(ctx, {
-      radius: radius * (frameOptions.radius || 1),
-      fillStyle: frameOptions.fillStyle || "#fff",
-      strokeStyle: frameOptions.strokeStyle || "#000",
-      lineWidth: frameOptions.lineWidth || 5,
-      lineCap: frameOptions.lineCap || "round",
-    });
-
-    drawMarks(ctx, {
-      radius: radius * (hourMarksOptions.radius || 1),
-      num: 12,
-      offset: hourMarksOptions.offset || 0,
-      length: hourMarksOptions.length || 15,
-      strokeStyle: hourMarksOptions.strokeStyle || "#000",
-      lineWidth: hourMarksOptions.lineWidth || 3,
-      lineCap: hourMarksOptions.lineCap || "round",
-    });
-
-    drawMarks(ctx, {
-      radius: radius * (minuteMarksOptions.radius || 1),
-      num: 60,
-      offset: minuteMarksOptions.offset || 0,
-      length: minuteMarksOptions.length || 10,
-      strokeStyle: minuteMarksOptions.strokeStyle || "#000",
-      lineWidth: minuteMarksOptions.lineWidth || 1,
-      lineCap: minuteMarksOptions.lineCap || "round",
-    });
-
-    const now = new Date();
-    const hour = now.getHours() % 12;
-    const minute = now.getMinutes();
-    const second = now.getSeconds();
-    const millisecond = now.getMilliseconds();
-
-    drawHand(ctx, {
-      angle: ((hour + minute / 60) * Math.PI) / 6,
-      offset: hourHandOptions.offset || 0,
-      length: radius * (hourHandOptions.length || 0.55),
-      strokeStyle: hourHandOptions.strokeStyle || "#000",
-      lineWidth: hourHandOptions.lineWidth || 6,
-      lineCap: hourHandOptions.lineCap || "round",
-    });
-
-    drawHand(ctx, {
-      angle: ((minute + second / 60) * Math.PI) / 30,
-      offset: minuteHandOptions.offset || 0,
-      length: radius * (minuteHandOptions.length || 0.85),
-      strokeStyle: minuteHandOptions.strokeStyle || "#000",
-      lineWidth: minuteHandOptions.lineWidth || 4,
-      lineCap: minuteHandOptions.lineCap || "round",
-    });
-
-    drawHand(ctx, {
-      angle: ((second + millisecond / 1000) * Math.PI) / 30,
-      offset: secondHandOptions.offset || 0,
-      length: radius * (secondHandOptions.length || 0.9),
-      strokeStyle: secondHandOptions.strokeStyle || "#f00",
-      lineWidth: secondHandOptions.lineWidth || 2,
-      lineCap: secondHandOptions.lineCap || "round",
-    });
-
-    ctx.restore();
-  };
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    const drawClock = (
+      ctx: CanvasRenderingContext2D,
+      canvas: HTMLCanvasElement
+    ) => {
+      const width = canvas.width;
+      const height = canvas.height;
+      const radius = Math.min(width, height) / 2;
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.save();
+      ctx.translate(width / 2, height / 2);
+      ctx.rotate(-Math.PI / 2);
+
+      drawClockFrame(ctx, {
+        radius: radius * (frameOptions.radius || 1),
+        fillStyle: frameOptions.fillStyle || "#fff",
+        strokeStyle: frameOptions.strokeStyle || "#000",
+        lineWidth: frameOptions.lineWidth || 5,
+        lineCap: frameOptions.lineCap || "round",
+      });
+
+      drawMarks(ctx, {
+        radius: radius * (hourMarksOptions.radius || 1),
+        num: 12,
+        offset: hourMarksOptions.offset || 0,
+        length: hourMarksOptions.length || 15,
+        strokeStyle: hourMarksOptions.strokeStyle || "#000",
+        lineWidth: hourMarksOptions.lineWidth || 3,
+        lineCap: hourMarksOptions.lineCap || "round",
+      });
+
+      drawMarks(ctx, {
+        radius: radius * (minuteMarksOptions.radius || 1),
+        num: 60,
+        offset: minuteMarksOptions.offset || 0,
+        length: minuteMarksOptions.length || 10,
+        strokeStyle: minuteMarksOptions.strokeStyle || "#000",
+        lineWidth: minuteMarksOptions.lineWidth || 1,
+        lineCap: minuteMarksOptions.lineCap || "round",
+      });
+
+      const now = new Date();
+      const hour = now.getHours() % 12;
+      const minute = now.getMinutes();
+      const second = now.getSeconds();
+      const millisecond = now.getMilliseconds();
+
+      drawHand(ctx, {
+        angle: ((hour + minute / 60) * Math.PI) / 6,
+        offset: hourHandOptions.offset || 0,
+        length: radius * (hourHandOptions.length || 0.55),
+        strokeStyle: hourHandOptions.strokeStyle || "#000",
+        lineWidth: hourHandOptions.lineWidth || 6,
+        lineCap: hourHandOptions.lineCap || "round",
+      });
+
+      drawHand(ctx, {
+        angle: ((minute + second / 60) * Math.PI) / 30,
+        offset: minuteHandOptions.offset || 0,
+        length: radius * (minuteHandOptions.length || 0.85),
+        strokeStyle: minuteHandOptions.strokeStyle || "#000",
+        lineWidth: minuteHandOptions.lineWidth || 4,
+        lineCap: minuteHandOptions.lineCap || "round",
+      });
+
+      drawHand(ctx, {
+        angle: ((second + millisecond / 1000) * Math.PI) / 30,
+        offset: secondHandOptions.offset || 0,
+        length: radius * (secondHandOptions.length || 0.9),
+        strokeStyle: secondHandOptions.strokeStyle || "#f00",
+        lineWidth: secondHandOptions.lineWidth || 2,
+        lineCap: secondHandOptions.lineCap || "round",
+      });
+
+      ctx.restore();
+    };
 
     const resizeCanvas = () => {
       canvas.width = document.body.clientWidth;
@@ -193,5 +206,7 @@ export const AnalogClock = ({
     };
   }, []);
 
-  return <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }}></canvas>;
+  return (
+    <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }}></canvas>
+  );
 };
