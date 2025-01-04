@@ -2,7 +2,7 @@
 
 import { AnalogClock, IAnalogClockProps } from "@/components/AnalogClock";
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 
 const getParam = <T extends number | string>(
   params: URLSearchParams,
@@ -73,8 +73,10 @@ export default function ClockPage() {
   );
 
   return (
-    <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
-      <AnalogClock {...clockProps} />
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+        <AnalogClock {...clockProps} />
+      </div>
+    </Suspense>
   );
 }
