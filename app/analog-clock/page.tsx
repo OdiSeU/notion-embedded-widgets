@@ -14,7 +14,10 @@ const getParam = <T extends number | string>(
     return (value ? Number(value) : defaultValue) as T;
   }
   if (typeof defaultValue === "string") {
-    return `#${value || defaultValue}` as T;
+    const temp = value || defaultValue;
+    const isHex = /^([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(temp);
+
+    return `${isHex ? "#" : ""}${temp}` as T;
   }
   return defaultValue;
 };
